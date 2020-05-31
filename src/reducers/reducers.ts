@@ -21,7 +21,6 @@ function reducer(state = initialState, action: AnyAction): IReducer {
     case types.SELECT_BLOCK:
       return { ...state, selectedBlock: action.coords };
     case types.FILL_BLOCK:
-      console.log(action);
       if (state.workingGrid && state.solvedGrid) {
         if (
           state.solvedGrid[action.coords[0]][action.coords[1]] !== action.value

@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import useMousetrap from 'react-hook-mousetrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dispatch, AnyAction } from 'redux';
 import { IReducer, selectBlock } from 'reducers';
@@ -17,12 +16,14 @@ interface IState {
 }
 
 const Block: FC<IProps> = ({ colIndex, rowIndex }) => {
-  const state = useSelector<IReducer, IState>(({ grid, selectedBlock }) => ({
-    isActive: selectedBlock
-      ? selectedBlock[0] === rowIndex && selectedBlock[1] === colIndex
-      : false,
-    value: grid ? grid[rowIndex][colIndex] : 0,
-  }));
+  const state = useSelector<IReducer, IState>(
+    ({ workingGrid, selectedBlock }) => ({
+      isActive: selectedBlock
+        ? selectedBlock[0] === rowIndex && selectedBlock[1] === colIndex
+        : false,
+      value: workingGrid ? workingGrid[rowIndex][colIndex] : 0,
+    })
+  );
   const dispatch = useDispatch<Dispatch<AnyAction>>();
   function handleClick() {
     if (!state.isActive) {
@@ -30,26 +31,6 @@ const Block: FC<IProps> = ({ colIndex, rowIndex }) => {
     }
   }
 
-  function moveDown() {
-    console.log('down');
-  }
-
-  function moveRight() {
-    console.log('right');
-  }
-
-  function moveUp() {
-    console.log('up');
-  }
-
-  function moveLeft() {
-    console.log('left');
-  }
-
-  useMousetrap('down', moveDown);
-  useMousetrap('right', moveRight);
-  useMousetrap('up', moveUp);
-  useMousetrap('left', moveLeft);
   return (
     <Container
       active={state.isActive}
